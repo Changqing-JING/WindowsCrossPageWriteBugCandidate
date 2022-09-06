@@ -25,7 +25,7 @@ buffEnd is 807060504030201
 buffEnd is 5a07060504030201
 ```
 
-## As a comparison, x86_64 windows, x86_64 linux and arm64 linux doesn't change the memory
+## As a comparison, x86_64 windows, x86_64 linux doesn't change the memory
 #### Run on x86_64 windows
 ```shell
 mkdir build_win
@@ -52,6 +52,7 @@ Observed output:
 buffEnd is 807060504030201
 ```
 
+## But Surface Pro X WSL2 also has this problem.
 #### Run on arm64 Linux 
 ```shell
 mkdir build_linux_arm
@@ -63,7 +64,11 @@ cmake --build .
 #Run with qemu
 qemu-aarch64 -L /usr/aarch64-linux-gnu ./UnixWriteCrossPage
 ```
+The bug candiate can also be reproduced by WSL2 on surface pro X
 Observed output:
 ```shell
+./LoopRun.sh
 buffEnd is 807060504030201
+buffEnd is 807060504030201
+buffEnd is 5a07060504030201
 ```
