@@ -1,0 +1,6 @@
+.cache
+.vscode
+build/
+build_linux_arm/
+build_win/
+build_win_arm/
