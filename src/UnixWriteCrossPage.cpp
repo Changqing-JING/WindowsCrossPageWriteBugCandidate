@@ -7,6 +7,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#ifdef __APPLE__
+constexpr int signalNumber = SIGBUS;
+#elif (defined __linux__)
+constexpr int signalNumber = SIGSEGV;
+#endif
+
 uint8_t *buff;
 size_t pageSize;
 uint64_t *pBuffEnd;
@@ -14,7 +20,7 @@ constexpr uint64_t vBuffEnd = 0x0807060504030201U;
 
 void signalHandler(int32_t const signalId, siginfo_t *const si,
                    void *const ptr) noexcept {
-  if (signalId == SIGSEGV) {
+  if (signalId == signalNumber) {
     char outStr[100];
     memset(outStr, 0, sizeof(outStr));
     snprintf(outStr, sizeof(outStr), "buffEnd is %lx\n", *pBuffEnd);
@@ -32,7 +38,7 @@ int main() {
   sa.sa_sigaction = signalHandler;
   sa.sa_flags = SA_SIGINFO;
   sigfillset(&sa.sa_mask);
-  sigaction(SIGSEGV, &sa, nullptr);
+  sigaction(signalNumber, &sa, nullptr);
 
   pageSize = sysconf(_SC_PAGE_SIZE);
 
