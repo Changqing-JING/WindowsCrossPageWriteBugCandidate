@@ -1,8 +1,5 @@
-This Repo discribs a bug candidate of ARM64 Windows 11.
-When a ARM64 str instructions trys to write data across two pages, where the first page with write access and the second page without write access, it should fail and trigger EXCEPTION_ACCESS_VIOLATION.
-
-But in the practice, it "partly" changed the memory:
-EXCEPTION_ACCESS_VIOLATION is still triggered but the data of low page is modified.
+A demo that write cross page with different memory access lead to hardware level undefined behavior
+See "Arm® Architecture Reference Manual" section section K1.2.13
 
 ## Run on arm64 windows
 ```shell
